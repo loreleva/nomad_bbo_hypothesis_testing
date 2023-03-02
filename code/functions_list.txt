@@ -35,6 +35,5 @@ zakharov_function
 dixon-price_function
 rosenbrock_function
 michalewicz_function
-perm_function_d,_B
 styblinski-tang_function
 bukin_function_n._6
