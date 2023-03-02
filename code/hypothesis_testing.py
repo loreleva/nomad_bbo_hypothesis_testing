@@ -1,10 +1,12 @@
 import sfu.evaluation_code.objective_function_class as ev
 import time, sys, os, math, itertools, random
 from memory_profiler import memory_usage
-import nevergrad_utils as ng_util
+import pynomad_utils as pynom_util
 from utils import *
+import PyNomad
 
 # execute N run of nevergrad, in each run we have num_workers parallel evaluation of the function, then we take the minim evaluation among num_workers as temp result of nevergrad
+
 
 num_proc = 0
 num_points = 0
@@ -13,6 +15,8 @@ q_inp = None
 q_res = None
 path_dir_log_file = None
 csv_sep = ";"
+
+
 
 def multiproc_function(q_inp, q_res, function_obj, num_points):
 	"""Function runned by the concurrent processes. Each process executes a run of nevergrad if
@@ -29,8 +33,11 @@ def multiproc_function(q_inp, q_res, function_obj, num_points):
 		# init time and ram tracking variables
 		start_time = time.process_time()
 		mem_usage = memory_usage(os.getpid(), interval=.1)
-		# run nevergrad
-		res = ng_util.run_nevergrad(function_obj, range_stopping_criteria=20, num_points=num_points)
+		# run nomad
+		pynom_util.function_obj = function_obj
+		pynom_util.range_stopping_criteria = 20
+		pynom_util.num_points = num_points
+		res = pynom_util.run_nomad()
 		# return results
 		res.update({"process time" : time.process_time() - start_time, "max ram usage" : max(mem_usage)})
 		q_res.put(res)
