@@ -33,7 +33,7 @@ def main(argv):
 
 		# obtain the list of dimensions on which to test it
 		dimensions = get_test_dimensions(function_json["dimension"], function_json["minimum_f"])
-		
+
 		# test the function with all the selected dimensions
 		for dim in dimensions:
 			# path of the results for the dimension dim
@@ -109,7 +109,7 @@ def get_test_dimensions(dim, min_f):
 		if type(min_f) == dict and list(min_f)[0] == "dimension":
 			dimensions = [int(x) for x in list(min_f["dimension"])]
 		else:
-			dimensions = [2] + [10**(x+1) for x in range(2)]
+			dimensions = [2] + [x for x in range(10, 110, 10)]
 	else:
 		dimensions = [int(dim)]
 	return dimensions
