@@ -11,7 +11,7 @@ def run_nomad():
 	global function_obj, num_points
 	# init first evaluation point
 	x0 = []
-	if not function_obj.has_input_domain:
+	if not function_obj.has_input_domain_range:
 		lb = []
 		ub = []
 		for d in range(function_obj.dimension):
