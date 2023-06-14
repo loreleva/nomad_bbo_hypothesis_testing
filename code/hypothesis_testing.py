@@ -56,9 +56,11 @@ def hypothesis_testing(input_opt, opt, delta, epsilon, path_dir_log_file, num_pr
 	if verbose:
 		print(f"N: {N}")
 	
-	# request execution of one run of nomad
-	q_inp.put(1)
-	# request the result
+	# start insert N+1 (the +1 is to obtain the first value of S) requests of runs of Nomad
+	for _ in range(N+1):
+		q_inp.put(1)
+
+	# retrieve the result of a run
 	res = q_res.get()
 	
 	# list of objective function errors of each run of nomad
@@ -95,11 +97,6 @@ def hypothesis_testing(input_opt, opt, delta, epsilon, path_dir_log_file, num_pr
 	num_external_iterations = 1
 	while (1):
 		S = S_prime
-		
-		# before starting the runs, check that the size of the queue is N
-		q_sizes = q_inp.qsize() + q_res.qsize()
-		for x in range(N - q_sizes):
-			q_inp.put(1)
 
 		# keep the count of the internal iterations
 		internal_iter = 0
@@ -144,7 +141,13 @@ def hypothesis_testing(input_opt, opt, delta, epsilon, path_dir_log_file, num_pr
 		# if after the N iterations no better S is found, end the algorithm
 		if S == S_prime:
 			break
+
 		num_external_iterations += 1
+		
+		# before restarting the N runs, check that the size of the queue is N
+		q_sizes = q_inp.qsize() + q_res.qsize()
+		for x in range(N - q_sizes):
+			q_inp.put(1)
 
 	# WRITE LOGS OF THE RESULTS
 
