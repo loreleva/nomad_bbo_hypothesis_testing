@@ -9,7 +9,7 @@ def main(argv):
 	global num_proc, num_points, function_obj, range_stopping_criteria, path_dir_log_file
 	
 	# define parser
-	parser = argparse.ArgumentParser(description="run hypothesis testing using Nevergrad")
+	parser = argparse.ArgumentParser(description="run hypothesis testing using Nomad")
 	parser.add_argument("function_name", help="objective function name")
 	parser.add_argument("points", type=int, help="number of points to be evaluated in parallel")
 	parser.add_argument("processes", type=int, help="number of processes that runs optimization in parallel")
