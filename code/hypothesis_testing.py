@@ -31,13 +31,13 @@ def multiproc_function(q_inp, q_res, function_obj, num_points):
 	while (inp != None):
 		# init time and ram tracking variables
 		start_time = time.process_time()
-		mem_usage = memory_usage(os.getpid(), interval=.1)
 		# run nomad
 		pynomad_utils.function_obj = function_obj
 		pynomad_utils.range_stopping_criteria = 20
 		pynomad_utils.num_points = num_points
 		res = pynomad_utils.run_nomad()
 		# return results
+		mem_usage = memory_usage(-1, max_usage=True)
 		res.update({"process time" : time.process_time() - start_time, "max ram usage" : max(mem_usage)})
 		q_res.put(res)
 		# wait for a new run
