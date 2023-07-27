@@ -26,7 +26,8 @@ def run_nomad():
 			f"DIMENSION {function_obj.dimension}", 
 			"DISPLAY_DEGREE 0", 
 			"DISPLAY_UNSUCCESSFUL False", 
-			f"BB_MAX_BLOCK_SIZE {num_points}"
+			f"BB_MAX_BLOCK_SIZE {num_points}",
+			"MIN_FRAME_SIZE * 1e-6"
 			]
 	# perform optimization
 	nomad_res = PyNomad.optimize(bb_block, x0, lb, ub, params)
